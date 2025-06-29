@@ -20,13 +20,13 @@ using TMPro;
     - music (Menu + Jeu) v
     - Mettre des sprites (pommes, murs, serpent) v
     - rotation tete v
+    - subversion -> mise sur git (snakeGame) v
     - fluidifier deplacement
     - Animations
     - Best score
     - lumieres
     - audio/sound for the game (when click on buttons, when eat apple (gnom gnom gnom)) 
     - pomme differents (pouvoir, cerises, raisins ect)
-    - subversion
     - refacto
     - how to export and multiple platform
 */
@@ -65,7 +65,6 @@ public class SnakeBehaviour : MonoBehaviour
 
         if (timer > moveRate)
         {
-                    Debug.Log($"{timer}|{moveRate}");
             timer = 0;
             Move();
         } 

@@ -4,33 +4,6 @@ using UnityEngine.SceneManagement;
 using UnityEngine;
 using TMPro;
 
-/* 
-    TODO:
-    - get user input v
-    - create apple (make it disapear) v
-    - create snake
-      * move v
-      * grow v
-      * collision (body or wall) => bug => fixed v 
-      * eat apple v
-      * add eyes to head 
-    - add walls v
-    - score v
-    - menu v
-    - music (Menu + Jeu) v
-    - Mettre des sprites (pommes, murs, serpent) v
-    - rotation tete v
-    - subversion -> mise sur git (snakeGame) v
-    - fluidifier deplacement
-    - Animations
-    - Best score
-    - lumieres
-    - audio/sound for the game (when click on buttons, when eat apple (gnom gnom gnom)) 
-    - pomme differents (pouvoir, cerises, raisins ect)
-    - refacto
-    - how to export and multiple platform
-*/
-
 public class SnakeBehaviour : MonoBehaviour
 {
     private Vector2 direction = Vector2.right;
@@ -53,7 +26,7 @@ public class SnakeBehaviour : MonoBehaviour
         timer = 0;
         UpdateScore();
         snakeComponent = this.gameObject;
-        snakeComponent.transform.position = new Vector3(-9, 0, 0);
+        snakeComponent.transform.position = new Vector3(-9f, 0f, 0f);
         SpawnFood();
     }
 

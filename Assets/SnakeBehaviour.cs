@@ -2,34 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using TMPro;
-
-/* 
-    TODO:
-    - get user input v
-    - create apple (make it disapear) v
-    - create snake
-      * move v
-      * grow v
-      * collision (body or wall) => bug => fixed v 
-      * eat apple v
-      * add eyes to head 
-    - add walls v
-    - score v
-    - menu v
-    - music (Menu + Jeu) v
-    - Mettre des sprites (pommes, murs, serpent) v
-    - rotation tete v
-    - subversion -> mise sur git (snakeGame) v
-    - fluidifier deplacement
-    - Animations
-    - Best score
-    - lumieres
-    - audio/sound for the game (when click on buttons, when eat apple (gnom gnom gnom)) 
-    - pomme differents (pouvoir, cerises, raisins ect)
-    - refacto
-    - how to export and multiple platform
-*/
 
 public class SnakeBehaviour : MonoBehaviour
 {
@@ -39,6 +13,8 @@ public class SnakeBehaviour : MonoBehaviour
     public GameObject bodyPartPrefab;
     List<Transform> bodyParts = new List<Transform>();
     List<Vector3> previousPositions = new List<Vector3>();
+
+    public InputActionReference moveAction;
 
     public float moveRate; // speed move
     public float timer;
@@ -53,16 +29,54 @@ public class SnakeBehaviour : MonoBehaviour
         timer = 0;
         UpdateScore();
         snakeComponent = this.gameObject;
-        snakeComponent.transform.position = new Vector3(-9, 0, 0);
+        snakeComponent.transform.position = new Vector3(-9f, 0f, 0f);
         SpawnFood();
+    }
+
+    void OnEnable()
+    {
+        moveAction.action.Enable();
+    }
+
+    void OnDisable() 
+    {
+        moveAction.action.Disable();
     }
 
     // Update is called once per frame
     void Update()
     {
-        HandleInput();
+        // #if !UNITY_ANDROID 
+        //     HandleInput();
+        // #endif
+        // Vector2 dir = moveAction.action.ReadValue<Vector2>();
+        // Debug.Log($"Direction: {dir}");
+        // if (dir != Vector2.zero && dir != -direction)
+        // {
+        //     direction = dir;
+        //     SetDirection(direction, GetAngleFromDirection(dir));
+        // }
+         Vector2 input = moveAction.action.ReadValue<Vector2>();
+         Debug.Log($"Direction: {input}|input: {input.magnitude}");
+        if (input.magnitude > 0.5f)
+        {
+            // Choix d’un seul axe : horizontal OU vertical
+            if (Mathf.Abs(input.x) > Mathf.Abs(input.y))
+            {
+                if (input.x > 0.5f)
+                    SetDirection(Vector2.right, -90f);
+                else if (input.x < -0.5f)
+                    SetDirection(Vector2.left, 90f);
+            }
+            else
+            {
+                if (input.y > 0.5f)
+                    SetDirection(Vector2.up, 0f);
+                else if (input.y < -0.5f)
+                    SetDirection(Vector2.down, 180f);
+            }
+        }
         timer += Time.deltaTime;
-
         if (timer > moveRate)
         {
             timer = 0;
@@ -71,6 +85,16 @@ public class SnakeBehaviour : MonoBehaviour
     }
 
 // Custom methods
+
+    float GetAngleFromDirection(Vector2 dir)
+    {
+        if (dir == Vector2.up) return 0;
+        if (dir == Vector2.down) return 180;
+        if (dir == Vector2.right) return -90;
+        if (dir == Vector2.left) return 90;
+        return 0;
+    }
+
     void Move()
     {
         previousPositions.Insert(0, snakeComponent.transform.position);
@@ -106,7 +130,7 @@ public class SnakeBehaviour : MonoBehaviour
         else if (other.CompareTag("Body") || other.CompareTag("Wall"))
         {
             Debug.Log("GAME OVER!!");
-            Time.timeScale = 0f;
+            SceneManager.LoadScene("Menu"); // reload scene
             // not good
         }
     }
@@ -126,30 +150,32 @@ public class SnakeBehaviour : MonoBehaviour
         scoreText.text = $"Score : {score}";
     }
 
-    void HandleInput()
+    public void SetDirection(Vector2 newDirection, float angle = 0)
     {
-        if (Input.GetKeyDown(KeyCode.W) && direction != Vector2.down)
-        {
-            direction = Vector2.up;
-            Rotate(0);
-
-        }
-        else if (Input.GetKeyDown(KeyCode.S) && direction != Vector2.up)
-        {
-            direction = Vector2.down;
-            Rotate(180);
-        }
-        else if (Input.GetKeyDown(KeyCode.D) && direction != Vector2.left)
-        {
-            direction = Vector2.right;
-            Rotate(-90);
-        }
-        else if (Input.GetKeyDown(KeyCode.A) && direction != Vector2.right)
-        {
-            direction = Vector2.left;
-            Rotate(90);
-        }
+        direction = newDirection;
+        Rotate(angle);
     }
+
+
+    // void HandleInput()
+    // {
+    //     if (Input.GetKeyDown(KeyCode.UpArrow))
+    //     {
+    //         SetDirection(Vector2.up, 0);
+    //     }
+    //     else if (Input.GetKeyDown(KeyCode.DownArrow))
+    //     {
+    //         SetDirection(Vector2.down, 180);
+    //     }
+    //     else if (Input.GetKeyDown(KeyCode.RightArrow))
+    //     {
+    //         SetDirection(Vector2.right, -90);
+    //     }
+    //     else if (Input.GetKeyDown(KeyCode.LeftArrow))
+    //     {
+    //         SetDirection(Vector2.left, 90);
+    //     }
+    // }
 
     void Rotate(float angle)
     {

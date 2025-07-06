@@ -46,21 +46,11 @@ public class SnakeBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // #if !UNITY_ANDROID 
-        //     HandleInput();
-        // #endif
-        // Vector2 dir = moveAction.action.ReadValue<Vector2>();
-        // Debug.Log($"Direction: {dir}");
-        // if (dir != Vector2.zero && dir != -direction)
-        // {
-        //     direction = dir;
-        //     SetDirection(direction, GetAngleFromDirection(dir));
-        // }
-         Vector2 input = moveAction.action.ReadValue<Vector2>();
-         Debug.Log($"Direction: {input}|input: {input.magnitude}");
+        Vector2 input = moveAction.action.ReadValue<Vector2>();
+        // Know if input is pressed hard enough
         if (input.magnitude > 0.5f)
         {
-            // Choix d’un seul axe : horizontal OU vertical
+            // Choose x or y movement based on input
             if (Mathf.Abs(input.x) > Mathf.Abs(input.y))
             {
                 if (input.x > 0.5f)
@@ -72,7 +62,7 @@ public class SnakeBehaviour : MonoBehaviour
             {
                 if (input.y > 0.5f)
                     SetDirection(Vector2.up, 0f);
-                else if (input.y < -0.5f)
+                else if (input.y < -0.5)
                     SetDirection(Vector2.down, 180f);
             }
         }
@@ -152,30 +142,13 @@ public class SnakeBehaviour : MonoBehaviour
 
     public void SetDirection(Vector2 newDirection, float angle = 0)
     {
-        direction = newDirection;
-        Rotate(angle);
+        // Prevent the snake from reversing direction
+        if (-direction != newDirection)
+        {
+            direction = newDirection;
+            Rotate(angle);
+        }
     }
-
-
-    // void HandleInput()
-    // {
-    //     if (Input.GetKeyDown(KeyCode.UpArrow))
-    //     {
-    //         SetDirection(Vector2.up, 0);
-    //     }
-    //     else if (Input.GetKeyDown(KeyCode.DownArrow))
-    //     {
-    //         SetDirection(Vector2.down, 180);
-    //     }
-    //     else if (Input.GetKeyDown(KeyCode.RightArrow))
-    //     {
-    //         SetDirection(Vector2.right, -90);
-    //     }
-    //     else if (Input.GetKeyDown(KeyCode.LeftArrow))
-    //     {
-    //         SetDirection(Vector2.left, 90);
-    //     }
-    // }
 
     void Rotate(float angle)
     {

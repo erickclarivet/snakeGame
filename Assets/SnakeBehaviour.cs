@@ -12,7 +12,6 @@ public class SnakeBehaviour : MonoBehaviour
     public GameObject foodComponent;
     public GameObject bodyPartPrefab;
     List<Transform> bodyParts = new List<Transform>();
-    List<Vector3> previousPositions = new List<Vector3>();
 
     public InputActionReference moveAction;
 
@@ -20,16 +19,18 @@ public class SnakeBehaviour : MonoBehaviour
     public float timer;
     public TextMeshProUGUI scoreText;
     public int score;
+    public TextMeshProUGUI highScoreText;
 
     // Start is called before the first frame update
     void Start()
     {
         moveRate = 0.2f;
-        score = -1;
+        LoadScore();
         timer = 0;
         UpdateScore();
         snakeComponent = this.gameObject;
-        snakeComponent.transform.position = new Vector3(-9f, 0f, 0f);
+        snakeComponent.transform.position = new Vector3(0f, 0f, 0f);
+        InitiateSnake(4);
         SpawnFood();
     }
 
@@ -87,19 +88,13 @@ public class SnakeBehaviour : MonoBehaviour
 
     void Move()
     {
-        previousPositions.Insert(0, snakeComponent.transform.position);
+        for (int i = bodyParts.Count - 1; i > 0; i--)
+        {
+            bodyParts[i].position = bodyParts[i - 1].position;
+        }
         snakeComponent.transform.position += new Vector3(direction.x, direction.y, 0);
-        // move parts :
-        for (int i = 0; i < bodyParts.Count; i++)
-        {
-            bodyParts[i].position = previousPositions[i];
-        }
-        // delete las position
-        if (previousPositions.Count > bodyParts.Count + 1)
-        {
-            previousPositions.RemoveAt(previousPositions.Count - 1);
-        }
-    }
+        bodyParts[0].position = snakeComponent.transform.position;        
+   }
 
     void SpawnFood()
     {
@@ -114,6 +109,7 @@ public class SnakeBehaviour : MonoBehaviour
         {
             Destroy(other.gameObject);
             UpdateScore();
+            SaveScore();
             SpawnFood();
             Grow();
         }
@@ -127,17 +123,53 @@ public class SnakeBehaviour : MonoBehaviour
 
     void Grow()
     {
-        Vector3 newPosition = snakeComponent.transform.position;
-        previousPositions.Insert(0, snakeComponent.transform.position);
-        snakeComponent.transform.position += new Vector3(direction.x, direction.y, 0);
-        GameObject newPart = Instantiate(bodyPartPrefab, newPosition, Quaternion.identity);
-        bodyParts.Add(newPart.transform);
+        // Add a new body part at the end of the snake
+        Transform newPart = Instantiate(bodyPartPrefab).transform;
+        newPart.position = bodyParts[bodyParts.Count - 1].position;
+        bodyParts.Add(newPart);
+        Move();
     }
 
     void UpdateScore()
     {
         score++;
         scoreText.text = $"Score : {score}";
+    }
+
+    void SaveScore()
+    {
+        // Save the score to PlayerPrefs or any other method
+        PlayerPrefs.SetInt("SnakeScore", score);
+        PlayerPrefs.Save();
+    }
+
+    void LoadScore()
+    {
+        int highScore = 0;
+        // Load the score from PlayerPrefs or any other method
+        if (PlayerPrefs.HasKey("SnakeScore"))
+        {
+            highScore = PlayerPrefs.GetInt("SnakeScore");
+        }
+        highScoreText.text = "High score : " + highScore;
+    }
+
+    void InitiateSnake(int length)
+    {
+        // Clear previous body parts if any
+        foreach (Transform part in bodyParts)
+        {
+            Destroy(part.gameObject);
+        }           
+        bodyParts.Clear();
+        bodyParts.Add(snakeComponent.transform);
+        // Initialize the snake with a given length
+        for (int i = 1; i < length; i++)
+        {
+            Transform newPart = Instantiate(bodyPartPrefab).transform;
+            newPart.position = snakeComponent.transform.position - new Vector3(i, 0, 0);
+            bodyParts.Add(newPart);
+        }
     }
 
     public void SetDirection(Vector2 newDirection, float angle = 0)

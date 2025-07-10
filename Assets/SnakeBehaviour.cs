@@ -24,6 +24,8 @@ public class SnakeBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("screen.width: " + Screen.width);
+        Debug.Log("screen.height: " + Screen.height);
         moveRate = 0.2f;
         LoadScore();
         timer = 0;

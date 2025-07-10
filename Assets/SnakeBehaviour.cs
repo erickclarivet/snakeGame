@@ -2,34 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using TMPro;
-
-/* 
-    TODO:
-    - get user input v
-    - create apple (make it disapear) v
-    - create snake
-      * move v
-      * grow v
-      * collision (body or wall) => bug => fixed v 
-      * eat apple v
-      * add eyes to head 
-    - add walls v
-    - score v
-    - menu v
-    - music (Menu + Jeu) v
-    - Mettre des sprites (pommes, murs, serpent) v
-    - rotation tete v
-    - subversion -> mise sur git (snakeGame) v
-    - fluidifier deplacement
-    - Animations
-    - Best score
-    - lumieres
-    - audio/sound for the game (when click on buttons, when eat apple (gnom gnom gnom)) 
-    - pomme differents (pouvoir, cerises, raisins ect)
-    - refacto
-    - how to export and multiple platform
-*/
 
 public class SnakeBehaviour : MonoBehaviour
 {
@@ -38,31 +12,64 @@ public class SnakeBehaviour : MonoBehaviour
     public GameObject foodComponent;
     public GameObject bodyPartPrefab;
     List<Transform> bodyParts = new List<Transform>();
-    List<Vector3> previousPositions = new List<Vector3>();
+
+    public InputActionReference moveAction;
 
     public float moveRate; // speed move
     public float timer;
     public TextMeshProUGUI scoreText;
     public int score;
+    public TextMeshProUGUI highScoreText;
 
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("screen.width: " + Screen.width);
+        Debug.Log("screen.height: " + Screen.height);
         moveRate = 0.2f;
-        score = -1;
+        LoadScore();
         timer = 0;
         UpdateScore();
         snakeComponent = this.gameObject;
-        snakeComponent.transform.position = new Vector3(-9, 0, 0);
+        snakeComponent.transform.position = new Vector3(0f, 0f, 0f);
+        InitiateSnake(4);
         SpawnFood();
+    }
+
+    void OnEnable()
+    {
+        moveAction.action.Enable();
+    }
+
+    void OnDisable() 
+    {
+        moveAction.action.Disable();
     }
 
     // Update is called once per frame
     void Update()
     {
-        HandleInput();
+        Vector2 input = moveAction.action.ReadValue<Vector2>();
+        // Know if input is pressed hard enough
+        if (input.magnitude > 0.5f)
+        {
+            // Choose x or y movement based on input
+            if (Mathf.Abs(input.x) > Mathf.Abs(input.y))
+            {
+                if (input.x > 0.5f)
+                    SetDirection(Vector2.right, -90f);
+                else if (input.x < -0.5f)
+                    SetDirection(Vector2.left, 90f);
+            }
+            else
+            {
+                if (input.y > 0.5f)
+                    SetDirection(Vector2.up, 0f);
+                else if (input.y < -0.5)
+                    SetDirection(Vector2.down, 180f);
+            }
+        }
         timer += Time.deltaTime;
-
         if (timer > moveRate)
         {
             timer = 0;
@@ -71,21 +78,25 @@ public class SnakeBehaviour : MonoBehaviour
     }
 
 // Custom methods
+
+    float GetAngleFromDirection(Vector2 dir)
+    {
+        if (dir == Vector2.up) return 0;
+        if (dir == Vector2.down) return 180;
+        if (dir == Vector2.right) return -90;
+        if (dir == Vector2.left) return 90;
+        return 0;
+    }
+
     void Move()
     {
-        previousPositions.Insert(0, snakeComponent.transform.position);
+        for (int i = bodyParts.Count - 1; i > 0; i--)
+        {
+            bodyParts[i].position = bodyParts[i - 1].position;
+        }
         snakeComponent.transform.position += new Vector3(direction.x, direction.y, 0);
-        // move parts :
-        for (int i = 0; i < bodyParts.Count; i++)
-        {
-            bodyParts[i].position = previousPositions[i];
-        }
-        // delete las position
-        if (previousPositions.Count > bodyParts.Count + 1)
-        {
-            previousPositions.RemoveAt(previousPositions.Count - 1);
-        }
-    }
+        bodyParts[0].position = snakeComponent.transform.position;        
+   }
 
     void SpawnFood()
     {
@@ -100,24 +111,25 @@ public class SnakeBehaviour : MonoBehaviour
         {
             Destroy(other.gameObject);
             UpdateScore();
+            SaveScore();
             SpawnFood();
             Grow();
         }
         else if (other.CompareTag("Body") || other.CompareTag("Wall"))
         {
             Debug.Log("GAME OVER!!");
-            Time.timeScale = 0f;
+            SceneManager.LoadScene("Menu"); // reload scene
             // not good
         }
     }
 
     void Grow()
     {
-        Vector3 newPosition = snakeComponent.transform.position;
-        previousPositions.Insert(0, snakeComponent.transform.position);
-        snakeComponent.transform.position += new Vector3(direction.x, direction.y, 0);
-        GameObject newPart = Instantiate(bodyPartPrefab, newPosition, Quaternion.identity);
-        bodyParts.Add(newPart.transform);
+        // Add a new body part at the end of the snake
+        Transform newPart = Instantiate(bodyPartPrefab).transform;
+        newPart.position = bodyParts[bodyParts.Count - 1].position;
+        bodyParts.Add(newPart);
+        Move();
     }
 
     void UpdateScore()
@@ -126,28 +138,49 @@ public class SnakeBehaviour : MonoBehaviour
         scoreText.text = $"Score : {score}";
     }
 
-    void HandleInput()
+    void SaveScore()
     {
-        if (Input.GetKeyDown(KeyCode.W) && direction != Vector2.down)
-        {
-            direction = Vector2.up;
-            Rotate(0);
+        // Save the score to PlayerPrefs or any other method
+        PlayerPrefs.SetInt("SnakeScore", score);
+        PlayerPrefs.Save();
+    }
 
-        }
-        else if (Input.GetKeyDown(KeyCode.S) && direction != Vector2.up)
+    void LoadScore()
+    {
+        int highScore = 0;
+        // Load the score from PlayerPrefs or any other method
+        if (PlayerPrefs.HasKey("SnakeScore"))
         {
-            direction = Vector2.down;
-            Rotate(180);
+            highScore = PlayerPrefs.GetInt("SnakeScore");
         }
-        else if (Input.GetKeyDown(KeyCode.D) && direction != Vector2.left)
+        highScoreText.text = "High score : " + highScore;
+    }
+
+    void InitiateSnake(int length)
+    {
+        // Clear previous body parts if any
+        foreach (Transform part in bodyParts)
         {
-            direction = Vector2.right;
-            Rotate(-90);
+            Destroy(part.gameObject);
+        }           
+        bodyParts.Clear();
+        bodyParts.Add(snakeComponent.transform);
+        // Initialize the snake with a given length
+        for (int i = 1; i < length; i++)
+        {
+            Transform newPart = Instantiate(bodyPartPrefab).transform;
+            newPart.position = snakeComponent.transform.position - new Vector3(i, 0, 0);
+            bodyParts.Add(newPart);
         }
-        else if (Input.GetKeyDown(KeyCode.A) && direction != Vector2.right)
+    }
+
+    public void SetDirection(Vector2 newDirection, float angle = 0)
+    {
+        // Prevent the snake from reversing direction
+        if (-direction != newDirection)
         {
-            direction = Vector2.left;
-            Rotate(90);
+            direction = newDirection;
+            Rotate(angle);
         }
     }
 

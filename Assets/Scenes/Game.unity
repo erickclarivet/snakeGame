@@ -277,7 +277,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 63028353}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0fca1ef5bb7740be99ad833e3909275, type: 3}
+  m_Script: {fileID: 11500000, guid: a4d7cd3df4ab74d1eb48d5e1f6a16d1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   wallLeft: {fileID: 648748604}
@@ -450,16 +450,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 527938502}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abedb396aa3954aa6bc13079c8f704da, type: 3}
+  m_Script: {fileID: 11500000, guid: e453b0a2fbc9c439c8f999c089553b29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   foodComponent: {fileID: 5571754494049003303, guid: d6449022a623347d0b720592cbf462a8, type: 3}
   bodyPartPrefab: {fileID: 4833412106477311979, guid: 3f12bc8d54ae1401ab294f0603b7541d, type: 3}
   moveAction: {fileID: -8070401397424658965, guid: 875e46a053fb3494aab56821465dd111, type: 3}
-  moveRate: 0.5
+  moveRate: 0
   timer: 0
   scoreText: {fileID: 1823374376}
-  score: -1
+  score: 0
   highScoreText: {fileID: 1505940963}
 --- !u!212 &527938509
 SpriteRenderer:
@@ -1968,7 +1968,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4833412106477311979, guid: 3f12bc8d54ae1401ab294f0603b7541d, type: 3}
       propertyPath: m_Name
-      value: SnakeComponent
+      value: Snake
       objectReference: {fileID: 0}
     - target: {fileID: 4833412106477311979, guid: 3f12bc8d54ae1401ab294f0603b7541d, type: 3}
       propertyPath: m_IsActive

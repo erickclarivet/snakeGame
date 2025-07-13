@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4576649701315230151}
   - component: {fileID: 2769396463298662234}
   m_Layer: 0
-  m_Name: snakePrefab
+  m_Name: snakeBodyPrefab
   m_TagString: Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -712,6 +712,56 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
+--- !u!1 &633089061
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 633089063}
+  - component: {fileID: 633089062}
+  m_Layer: 0
+  m_Name: FoodManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &633089062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 633089061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0b8fa6fc16e941689f62a5a7189faf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodPrefabs:
+  - {fileID: 5571754494049003303, guid: d6449022a623347d0b720592cbf462a8, type: 3}
+  - {fileID: 5325964816154077823, guid: 221f42e9c64d942a7900ca7af83341d9, type: 3}
+  - {fileID: 6584300916002438937, guid: 7176b4982a8424c3ea30537b9edacab6, type: 3}
+  - {fileID: 132836253786574749, guid: d1807531879994a3c90028f202a40b02, type: 3}
+  - {fileID: 2529655691632709687, guid: 5b22be381faec4799bdc0a6f5af2e7a6, type: 3}
+--- !u!4 &633089063
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 633089061}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.125323, y: 2.6445458, z: -10.070654}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &648748604
 GameObject:
   m_ObjectHideFlags: 0
@@ -1157,8 +1207,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   snakePrefab: {fileID: 5909094700525310020, guid: 9ed464a380a384e50911386544ceb25a, type: 3}
-  fruitPrefab: {fileID: 5571754494049003303, guid: d6449022a623347d0b720592cbf462a8, type: 3}
   scoreManager: {fileID: 103098787}
+  foodManager: {fileID: 633089062}
 --- !u!1 &1419597189
 GameObject:
   m_ObjectHideFlags: 0
@@ -1702,3 +1752,4 @@ SceneRoots:
   - {fileID: 734785183}
   - {fileID: 38242235}
   - {fileID: 63028355}
+  - {fileID: 633089063}

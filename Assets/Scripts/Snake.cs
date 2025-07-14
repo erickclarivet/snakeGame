@@ -10,12 +10,16 @@ public class Snake : MonoBehaviour
 {
     [SerializeField] private GameObject bodyPartPrefab;
     [SerializeField] private InputActionReference moveAction;
-    [SerializeField] private  float moveRate; // speed move
-    [SerializeField] private float timer;
 
     private Vector2 direction = Vector2.right;
     private GameObject snakeGO;
     private List<Transform> bodyParts = new List<Transform>();
+
+    private float normalSpeed = 0.1f;
+    private float slowSpeed = 0.3f;
+    private float fastSpeed = 0.05f;
+    public float currentSpeed;
+    private float timer = 0f;
 
     public event Action OnFruitEaten;
     public event Action OnDestroySnake;
@@ -23,12 +27,9 @@ public class Snake : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        currentSpeed = normalSpeed;
         snakeGO = gameObject;
-        // moveRate = 0.2f; ->
-        //LoadScore();
-        //timer = 0; ->
         InitiateSnake(4);
-        // SpawnFood();
     }
 
     void OnEnable()
@@ -65,7 +66,7 @@ public class Snake : MonoBehaviour
             }
         }
         timer += Time.deltaTime;
-        if (timer > moveRate)
+        if (timer > currentSpeed)
         {
             timer = 0;
             Move();
@@ -95,7 +96,7 @@ public class Snake : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Food"))
+        if (other.gameObject.tag.EndsWith("Food"))
         {
             OnFruitEaten?.Invoke();
             Grow();
@@ -157,5 +158,20 @@ public class Snake : MonoBehaviour
     void Rotate(float angle)
     {
         snakeGO.transform.rotation = Quaternion.Euler(0, 0, angle);
+    }
+
+    public void ResetEffect()
+    {
+        currentSpeed = normalSpeed;
+    }
+
+    public void SpeedUpEffect()
+    {
+        currentSpeed = fastSpeed;
+    }
+
+    public void SlowEffect()
+    {
+        currentSpeed = slowSpeed;
     }
 }

@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5205682977264739810
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 132836253786574749, guid: d1807531879994a3c90028f202a40b02, type: 3}
+      propertyPath: m_Name
+      value: cherryPrefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 132836253786574749, guid: d1807531879994a3c90028f202a40b02, type: 3}
+      propertyPath: m_TagString
+      value: CherryFood
+      objectReference: {fileID: 0}
+    - target: {fileID: 1502312574791108368, guid: d1807531879994a3c90028f202a40b02, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -19.247116
+      objectReference: {fileID: 0}
+    - target: {fileID: 1502312574791108368, guid: d1807531879994a3c90028f202a40b02, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -5.4256725
+      objectReference: {fileID: 0}
+    - target: {fileID: 1502312574791108368, guid: d1807531879994a3c90028f202a40b02, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1502312574791108368, guid: d1807531879994a3c90028f202a40b02, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1502312574791108368, guid: d1807531879994a3c90028f202a40b02, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1502312574791108368, guid: d1807531879994a3c90028f202a40b02, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1502312574791108368, guid: d1807531879994a3c90028f202a40b02, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1502312574791108368, guid: d1807531879994a3c90028f202a40b02, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1502312574791108368, guid: d1807531879994a3c90028f202a40b02, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1502312574791108368, guid: d1807531879994a3c90028f202a40b02, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2893875387557803803, guid: d1807531879994a3c90028f202a40b02, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 0.875
+      objectReference: {fileID: 0}
+    - target: {fileID: 2893875387557803803, guid: d1807531879994a3c90028f202a40b02, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 0.875
+      objectReference: {fileID: 0}
+    - target: {fileID: 6498837419706926817, guid: d1807531879994a3c90028f202a40b02, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 1759081474, guid: cd0b8890fd943ec42b39ec4e5fa041c1, type: 3}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 132836253786574749, guid: d1807531879994a3c90028f202a40b02, type: 3}
+      insertIndex: 2
+      addedObject: {fileID: 5138593566043925415}
+  m_SourcePrefab: {fileID: 100100000, guid: d1807531879994a3c90028f202a40b02, type: 3}
+--- !u!1 &5325964816154077823 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 132836253786574749, guid: d1807531879994a3c90028f202a40b02, type: 3}
+  m_PrefabInstance: {fileID: 5205682977264739810}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5138593566043925415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5325964816154077823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 811095818c55c4b3981e6151c6711e91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 2

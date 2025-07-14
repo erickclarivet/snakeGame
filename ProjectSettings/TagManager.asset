@@ -7,6 +7,11 @@ TagManager:
   - Food
   - Body
   - Wall
+  - GrapeFood
+  - AppleFood
+  - WMFood
+  - CherryFood
+  - YellowFood
   layers:
   - Default
   - TransparentFX

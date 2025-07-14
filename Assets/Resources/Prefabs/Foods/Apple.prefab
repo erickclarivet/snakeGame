@@ -10,11 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 6367102222207217578}
   - component: {fileID: -2985784383171113908}
+  - component: {fileID: 6341116008741219308}
   - component: {fileID: 7254217881177874337}
   - component: {fileID: 1636415096565657179}
   m_Layer: 0
-  m_Name: foodPrefab
-  m_TagString: Food
+  m_Name: Apple
+  m_TagString: AppleFood
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -61,6 +62,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &6341116008741219308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5571754494049003303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 811095818c55c4b3981e6151c6711e91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
+  appearanceTime: -1
 --- !u!61 &7254217881177874337
 BoxCollider2D:
   m_ObjectHideFlags: 0

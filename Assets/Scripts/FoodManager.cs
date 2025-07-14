@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,10 @@ using UnityEngine;
 public class FoodManager : MonoBehaviour
 {
     [SerializeField] private List<GameObject> foodPrefabs;
+    private float effectDuration = -1f;
+    private float effectTimer = 0f;
+
+    public event Action OnEndEffect;
 
     // Start is called before the first frame update
     void Start()
@@ -15,7 +20,12 @@ public class FoodManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        effectTimer += Time.deltaTime;
+        if (effectDuration != -1f && effectTimer > effectDuration)
+        {
+            effectTimer = 0f;
+            OnEndEffect?.Invoke();
+        }
     }
 
     public GameObject GetRandomFoodPrefab()
@@ -26,7 +36,15 @@ public class FoodManager : MonoBehaviour
             return null;
         }
         
-        return foodPrefabs[Random.Range(0, foodPrefabs.Count)];
+        // Randomly select a food prefab based on defined probabilities
+        int number = UnityEngine.Random.Range(0, 100);
+        if (number < 70)
+            return foodPrefabs[0]; // Classic
+        else if (number < 85)
+            return foodPrefabs[1]; // Speed
+        else if (number < 95)
+            return foodPrefabs[2]; // MoreParts
+        return foodPrefabs[3]; // Slow
     }
 
     // TODO : Apply the effect of the food on the snake few sec 
@@ -35,6 +53,8 @@ public class FoodManager : MonoBehaviour
     {
         float additionalScore = 1f;
         snake.ResetEffect();
+        effectDuration = food.effectDuration;
+        effectTimer = 0f;
         switch (food.type)
         {
             case FoodType.Speed:

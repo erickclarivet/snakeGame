@@ -22,6 +22,7 @@ public class GameController : MonoBehaviour
         scoreManager.LoadScore();
         SpawnSnake();
         SpawnFood();
+        foodManager.OnEndEffect += OnEndEffect;
     }
 
     // Update is called once per frame
@@ -72,5 +73,10 @@ public class GameController : MonoBehaviour
         snakeGO = null;
         snake = null;
         SpawnSnake();
+    }
+
+    public void OnEndEffect()
+    {
+        snake.ResetEffect();
     }
 }

@@ -9,7 +9,7 @@ public class Food : MonoBehaviour
     public FoodType type;
     [SerializeField] private float appearanceTime; // Time before the food disappears if not eaten
     private float timer = 0f;
-
+    public float effectDuration;
     public event Action OnFoodDisapear;
 
     // Start is called before the first frame update

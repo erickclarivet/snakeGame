@@ -76,6 +76,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   appearanceTime: -1
+  effectDuration: -1
 --- !u!61 &7254217881177874337
 BoxCollider2D:
   m_ObjectHideFlags: 0

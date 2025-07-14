@@ -15,7 +15,7 @@ public class Snake : MonoBehaviour
     private GameObject snakeGO;
     private List<Transform> bodyParts = new List<Transform>();
 
-    private float normalSpeed = 0.1f;
+    private float normalSpeed = 0.15f;
     private float slowSpeed = 0.3f;
     private float fastSpeed = 0.05f;
     public float currentSpeed;
@@ -99,7 +99,7 @@ public class Snake : MonoBehaviour
         if (other.gameObject.tag.EndsWith("Food"))
         {
             OnFruitEaten?.Invoke();
-            Grow();
+            GrowBodyParts();
         }
         else if (other.CompareTag("Body") || other.CompareTag("Wall"))
         {
@@ -110,12 +110,14 @@ public class Snake : MonoBehaviour
         }
     }
 
-    void Grow()
+    public void GrowBodyParts(int number = 1)
     {
-        // Add a new body part at the end of the snake
-        Transform newPart = Instantiate(bodyPartPrefab).transform;
-        newPart.position = bodyParts[bodyParts.Count - 1].position;
-        bodyParts.Add(newPart);
+        for (int i = 0; i < number; i++)
+        {
+            Transform newPart = Instantiate(bodyPartPrefab).transform;
+            newPart.position = bodyParts[bodyParts.Count - 1].position;
+            bodyParts.Add(newPart);
+        }
         Move();
     }
 

@@ -1,8 +1,7 @@
 public enum FoodType
 {
-    Apple,
-    Watermelon,
-    Cherry,
-    Grape,
-    Yellow
+    Classic,
+    Speed,
+    MoreParts,
+    Slow
 }

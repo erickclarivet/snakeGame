@@ -37,19 +37,17 @@ public class FoodManager : MonoBehaviour
         snake.ResetEffect();
         switch (food.type)
         {
-            case FoodType.Watermelon:
+            case FoodType.Speed:
                 snake.SpeedUpEffect();
                 break;
-            case FoodType.Cherry:
-                // Apply cherry effect
-                additionalScore = 3f; // Example effect: 1.5x score
+            case FoodType.MoreParts:
+                // Apply more parts effect
+                snake.GrowBodyParts(3);
+                additionalScore = 3f;
                 break;
-            case FoodType.Grape:
-                // Apply grape effect
-                additionalScore = 4f; // Example effect: 2x score
-                break;
-            case FoodType.Yellow:
+            case FoodType.Slow:
                 snake.SlowEffect();
+                additionalScore = 5f;
                 break;
         }
 

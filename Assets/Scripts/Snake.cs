@@ -20,6 +20,7 @@ public class Snake : MonoBehaviour
     private float fastSpeed = 0.05f;
     public float currentSpeed;
     private float timer = 0f;
+    private Color defaultColor;
 
     public event Action OnFruitEaten;
     public event Action OnDestroySnake;
@@ -27,6 +28,7 @@ public class Snake : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        defaultColor = GetComponent<SpriteRenderer>().color;
         currentSpeed = normalSpeed;
         snakeGO = gameObject;
         InitiateSnake(4);
@@ -165,15 +167,18 @@ public class Snake : MonoBehaviour
     public void ResetEffect()
     {
         currentSpeed = normalSpeed;
+        GetComponent<SpriteRenderer>().color = defaultColor; // Reset color
     }
 
     public void SpeedUpEffect()
     {
         currentSpeed = fastSpeed;
+        GetComponent<SpriteRenderer>().color = Color.red; // Change color to indicate speed effect
     }
 
     public void SlowEffect()
     {
+        GetComponent<SpriteRenderer>().color = Color.cyan; // Change color to indicate slow effect
         currentSpeed = slowSpeed;
     }
 }

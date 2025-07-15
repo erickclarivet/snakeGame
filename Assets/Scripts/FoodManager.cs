@@ -47,8 +47,7 @@ public class FoodManager : MonoBehaviour
         return foodPrefabs[3]; // Slow
     }
 
-    // TODO : Apply the effect of the food on the snake few sec 
-    // TODO : Add effect that add more body parts to the snake
+    // TODO : Change color of snake when effect is applied
     public float ApplyEffect(Snake snake, Food food)
     {
         float additionalScore = 1f;

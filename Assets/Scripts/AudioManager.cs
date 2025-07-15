@@ -1,17 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class AudioManager : MonoBehaviour
 {
     [SerializeField] private AudioSource backgroundMusic;
-    [SerializeField] private TextMeshProUGUI audioText;
-    private bool isAudioOn = true;
+    [SerializeField] private Image audioButtonImage;
+    [SerializeField] private Sprite playSprite;
+    [SerializeField] private Sprite muteSprite;
+    private bool isMuted = false;
 
     // Start is called before the first frame update
     void Start()
     {
+        isMuted = PlayerPrefs.GetInt("isMuted", 0) == 1;
+        UpdateAudioState();
     }
 
     // Update is called once per frame
@@ -26,8 +31,18 @@ public class AudioManager : MonoBehaviour
 
     public void ToggleAudio()
     {
-        isAudioOn = !isAudioOn;
-        backgroundMusic.mute = !isAudioOn;
-        audioText.text = isAudioOn ? "Music On" : "Music Off";
+        isMuted = !isMuted;
+        UpdateAudioState();
+    }
+
+    public void OnDestroy() {
+        PlayerPrefs.SetInt("isMuted", isMuted ? 1 : 0);
+        PlayerPrefs.Save();
+    }
+
+    private void UpdateAudioState()
+    {
+        backgroundMusic.mute = isMuted;
+        audioButtonImage.sprite = isMuted ? muteSprite : playSprite;
     }
 }

@@ -105,10 +105,8 @@ public class Snake : MonoBehaviour
         }
         else if (other.CompareTag("Body") || other.CompareTag("Wall"))
         {
-            Debug.Log("GAME OVER!!");
             DestroyBodyParts();
             OnDestroySnake?.Invoke();
-            //SceneManager.LoadScene("MainMenu");
         }
     }
 
@@ -167,18 +165,18 @@ public class Snake : MonoBehaviour
     public void ResetEffect()
     {
         currentSpeed = normalSpeed;
-        GetComponent<SpriteRenderer>().color = defaultColor; // Reset color
+        GetComponent<SpriteRenderer>().color = defaultColor;
     }
 
     public void SpeedUpEffect()
     {
         currentSpeed = fastSpeed;
-        GetComponent<SpriteRenderer>().color = Color.red; // Change color to indicate speed effect
+        GetComponent<SpriteRenderer>().color = Color.red;
     }
 
     public void SlowEffect()
     {
-        GetComponent<SpriteRenderer>().color = Color.cyan; // Change color to indicate slow effect
+        GetComponent<SpriteRenderer>().color = Color.cyan;
         currentSpeed = slowSpeed;
     }
 }

@@ -7,8 +7,8 @@ public class ScoreManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI highScoreText;
-    private int score;
-    private int highScore;
+    private float score;
+    private float highScore;
 
     // Start is called before the first frame update
     void Start()
@@ -38,7 +38,7 @@ public class ScoreManager : MonoBehaviour
     {
         score = 0;
         UpdateScoreText();
-        highScore = PlayerPrefs.GetInt("HighScore", 0);
+        highScore = PlayerPrefs.GetFloat("HighScore", 0);
         UpdateHighScoreText();
     }
 
@@ -47,12 +47,12 @@ public class ScoreManager : MonoBehaviour
         if (score > highScore)
         {
             highScore = score;
-            PlayerPrefs.SetInt("HighScore", highScore);
+            PlayerPrefs.SetFloat("HighScore", highScore);
             PlayerPrefs.Save();
         }
     }
 
-    public void UpdateScore(int points)
+    public void UpdateScore(float points)
     {
         score += points;
         UpdateScoreText();

@@ -10,12 +10,17 @@ public class Snake : MonoBehaviour
 {
     [SerializeField] private GameObject bodyPartPrefab;
     [SerializeField] private InputActionReference moveAction;
-    [SerializeField] private  float moveRate; // speed move
-    [SerializeField] private float timer;
 
     private Vector2 direction = Vector2.right;
     private GameObject snakeGO;
     private List<Transform> bodyParts = new List<Transform>();
+
+    private float normalSpeed = 0.15f;
+    private float slowSpeed = 0.3f;
+    private float fastSpeed = 0.05f;
+    public float currentSpeed;
+    private float timer = 0f;
+    private Color defaultColor;
 
     public event Action OnFruitEaten;
     public event Action OnDestroySnake;
@@ -23,12 +28,10 @@ public class Snake : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        defaultColor = GetComponent<SpriteRenderer>().color;
+        currentSpeed = normalSpeed;
         snakeGO = gameObject;
-        // moveRate = 0.2f; ->
-        //LoadScore();
-        //timer = 0; ->
         InitiateSnake(4);
-        // SpawnFood();
     }
 
     void OnEnable()
@@ -65,7 +68,7 @@ public class Snake : MonoBehaviour
             }
         }
         timer += Time.deltaTime;
-        if (timer > moveRate)
+        if (timer > currentSpeed)
         {
             timer = 0;
             Move();
@@ -95,26 +98,26 @@ public class Snake : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Food"))
+        if (other.gameObject.tag.EndsWith("Food"))
         {
             OnFruitEaten?.Invoke();
-            Grow();
+            GrowBodyParts();
         }
         else if (other.CompareTag("Body") || other.CompareTag("Wall"))
         {
-            Debug.Log("GAME OVER!!");
             DestroyBodyParts();
             OnDestroySnake?.Invoke();
-            //SceneManager.LoadScene("MainMenu");
         }
     }
 
-    void Grow()
+    public void GrowBodyParts(int number = 1)
     {
-        // Add a new body part at the end of the snake
-        Transform newPart = Instantiate(bodyPartPrefab).transform;
-        newPart.position = bodyParts[bodyParts.Count - 1].position;
-        bodyParts.Add(newPart);
+        for (int i = 0; i < number; i++)
+        {
+            Transform newPart = Instantiate(bodyPartPrefab).transform;
+            newPart.position = bodyParts[bodyParts.Count - 1].position;
+            bodyParts.Add(newPart);
+        }
         Move();
     }
 
@@ -157,5 +160,23 @@ public class Snake : MonoBehaviour
     void Rotate(float angle)
     {
         snakeGO.transform.rotation = Quaternion.Euler(0, 0, angle);
+    }
+
+    public void ResetEffect()
+    {
+        currentSpeed = normalSpeed;
+        GetComponent<SpriteRenderer>().color = defaultColor;
+    }
+
+    public void SpeedUpEffect()
+    {
+        currentSpeed = fastSpeed;
+        GetComponent<SpriteRenderer>().color = Color.red;
+    }
+
+    public void SlowEffect()
+    {
+        GetComponent<SpriteRenderer>().color = Color.cyan;
+        currentSpeed = slowSpeed;
     }
 }

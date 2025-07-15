@@ -2,19 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 // Fix head position snake
 // Fix snake collision
 
 public class GameController : MonoBehaviour
 {
     [SerializeField] private GameObject snakePrefab;
-    [SerializeField] private GameObject fruitPrefab;
     [SerializeField] private ScoreManager scoreManager;
+    [SerializeField] private FoodManager foodManager;
 
     private GameObject snakeGO;
     private Snake snake;
-    private GameObject currentFruit;
+    private GameObject currentFoodGO;
+    private Food currentFood;
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +22,7 @@ public class GameController : MonoBehaviour
         scoreManager.LoadScore();
         SpawnSnake();
         SpawnFood();
+        foodManager.OnEndEffect += OnEndEffect;
     }
 
     // Update is called once per frame
@@ -40,16 +41,24 @@ public class GameController : MonoBehaviour
 
     private void SpawnFood()
     {
-        // TODO : Rework => use camera bounds for spawning food
-        // TODO : Create class to create different types of food
-        Vector2 spawnPosition = new Vector2(Random.Range(-18, 18),Random.Range(-9, 9));
-        currentFruit = Instantiate(fruitPrefab, spawnPosition, Quaternion.identity);
+        GameObject foodPrefab = foodManager.GetRandomFoodPrefab();
+        Vector2 spawnPosition = new Vector2(Random.Range(-24, 24),Random.Range(-12, 12));
+        currentFoodGO = Instantiate(foodPrefab, spawnPosition, Quaternion.identity);
+        currentFood = currentFoodGO.GetComponent<Food>();
+        currentFood.OnFoodDisapear += HandleFoodDisapear;
     }
 
     private void HandleFruitEaten()
     {
-        scoreManager.UpdateScore(1);
-        Destroy(currentFruit);
+        float additionalScore = foodManager.ApplyEffect(snake, currentFoodGO.GetComponent<Food>());
+        scoreManager.UpdateScore(additionalScore);
+        HandleFoodDisapear();
+    }
+
+    private void HandleFoodDisapear()
+    {
+        currentFood.OnFoodDisapear -= HandleFoodDisapear;
+        Destroy(currentFoodGO);
         SpawnFood();
     }
 
@@ -64,5 +73,10 @@ public class GameController : MonoBehaviour
         snakeGO = null;
         snake = null;
         SpawnSnake();
+    }
+
+    public void OnEndEffect()
+    {
+        snake.ResetEffect();
     }
 }

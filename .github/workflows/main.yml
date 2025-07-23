@@ -12,14 +12,6 @@ jobs:
       # Checkout the repository
       - name : Checkout repository
         uses: actions/checkout@v4.2.2
-      - id: cache-unity
-        name: Cache Unity packages    
-        uses: actions/cache@v4
-        with:
-          path: Library
-          key: ${{ runner.os }}-unity-${{ hashFiles('**/Packages/manifest.json') }}
-          restore-keys: |
-            ${{ runner.os }}-unity-
       #Installer Android SDK, JDK, et NDK
       - name: Install Android SDK, JDK, NDK
         run: |

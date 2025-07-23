@@ -38,12 +38,12 @@ jobs:
           customParameters: '-batchmode -nographics -quit -logFile ./builds/android/unity_build_log.txt -buildTarget StandaloneAndroid -outputPath ./builds/android/SnakeAndroidBuild.apk'
       # Upload build artifacts
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v3.1.0
+        uses: actions/upload-artifact@v4.6.2
         with:
           name: SnakeAndroidBuild-${{ github.sha }}-v2022.3.22f1.apk
           path: ./builds/android/SnakeAndroidBuild.apk
       - name: Upload Unity build logs
-        uses: actions/upload-artifact@v3.1.0
+        uses: actions/upload-artifact@v4.6.2
         with:
           name: UnityBuildLogs
           path: ./builds/android/unity_build_log.txt

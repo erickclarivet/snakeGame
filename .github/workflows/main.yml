@@ -28,6 +28,8 @@ jobs:
           sudo apt-get install -y openjdk-8-jdk
       - name: Activate Unity License
         run: |
+          mkdir -p $HOME/.local/share/unity3d
+          echo "$UNITY_LICENSE_FILE"
           echo "$UNITY_LICENSE_FILE" > $HOME/.local/share/unity3d/UnityEntitlementLicense.xml
         env:
           UNITY_LICENSE_FILE: ${{ secrets.UNITY_LICENSE_FILE }}

@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-2022.3.62f1-base-3.1.0
     steps:
       # Checkout the repository
       - name : Checkout repository

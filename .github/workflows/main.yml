@@ -44,14 +44,14 @@ jobs:
 
       # Upload build artifacts (APK)
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4.6.2
         with:
           name: SnakeAndroidBuild-${{ github.sha }}-v2022.3.6f1.apk
           path: ./builds/android/SnakeAndroidBuild.apk
 
       # Upload Unity build logs
       - name: Upload Unity build logs
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4.6.2
         with:
           name: UnityBuildLogs
           path: ./builds/android/unity_build_log.txt

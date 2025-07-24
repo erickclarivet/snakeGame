@@ -40,3 +40,10 @@ jobs:
         with:
           name: Build-${{ matrix.targetPlatform }}
           path: build/${{ matrix.targetPlatform }}
+      - name: Deploy WebGL to GitHub Pages
+        if: matrix.targetPlatform == 'WebGL'  # Exécuter uniquement pour WebGL
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}  # Utilisation du token GitHub
+          publish_dir: ./build/WebGL  # Dossier où le build WebGL a été généré
+          publish_branch: gh-pages

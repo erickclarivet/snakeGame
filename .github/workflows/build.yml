@@ -43,7 +43,7 @@ jobs:
       - name: Copy WebGL build to current working directory (root)
         if: matrix.targetPlatform == 'WebGL'
         run: |
-          cp -r build/WebGL/* .
+          cp -r build/${{ matrix.targetPlatform }}/* .
       - name: Deploy WebGL to GitHub Pages
         if: matrix.targetPlatform == 'WebGL'  # Exécuter uniquement pour WebGL
         uses: peaceiris/actions-gh-pages@v3

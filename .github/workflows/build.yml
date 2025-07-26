@@ -49,5 +49,5 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}  # Utilisation du token GitHub
-          publish_dir: build/${{ matrix.targetPlatform }}  # Dossier où le build WebGL a été généré
+          publish_dir: .  # Dossier où le build WebGL a été généré
           publish_branch: gh-pages

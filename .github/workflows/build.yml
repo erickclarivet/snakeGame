@@ -1,6 +1,9 @@
 name: Build project
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   buildForAllSupportedPlatforms:
@@ -40,14 +43,10 @@ jobs:
         with:
           name: Build-${{ matrix.targetPlatform }}
           path: build/${{ matrix.targetPlatform }}
-      #- name: Copy WebGL build to current working directory (root)
-      #  if: matrix.targetPlatform == 'WebGL'
-       # run: |
-       #   cp -r build/${{ matrix.targetPlatform }}/* .
       - name: Deploy WebGL to GitHub Pages
-        if: matrix.targetPlatform == 'WebGL'  # Exécuter uniquement pour WebGL
+        if: matrix.targetPlatform == 'WebGL'
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}  # Utilisation du token GitHub
-          publish_dir: build/WebGL/WebGL  # Dossier où le build WebGL a été généré
+          github_token: ${{ secrets.GITHUB_TOKEN }}=
+          publish_dir: build/WebGL/WebGL  # Folder where build is done
           publish_branch: gh-pages

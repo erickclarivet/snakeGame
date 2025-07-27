@@ -47,6 +47,6 @@ jobs:
         if: matrix.targetPlatform == 'WebGL'
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}=
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: build/WebGL/WebGL  # Folder where build is done
           publish_branch: gh-pages

@@ -301,6 +301,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a6548275c6e24d3fa2e35c0d51c0389, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  backgroundMusic: {fileID: 2136572027}
+  audioButtonImage: {fileID: 522217855}
+  playSprite: {fileID: 21300000, guid: 4487209fdda91154da619301adb9e6c4, type: 3}
+  muteSprite: {fileID: 21300000, guid: 11e3d102a51b3e1409ff67d202690d8b, type: 3}
 --- !u!1 &720804447
 GameObject:
   m_ObjectHideFlags: 0

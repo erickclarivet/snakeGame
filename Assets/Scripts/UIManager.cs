@@ -1,16 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class AudioManager : MonoBehaviour
+public class UIManager : MonoBehaviour
 {
     [SerializeField] private AudioSource backgroundMusic;
     [SerializeField] private Image audioButtonImage;
-    [SerializeField] private Sprite playSprite;
+    [SerializeField] private Sprite unmuteSprite;
     [SerializeField] private Sprite muteSprite;
     private bool isMuted = false;
+
+    [SerializeField] private Image buttonImage;
+    [SerializeField] private Sprite pauseSprite;
+    [SerializeField] private Sprite playSprite;
+    private bool isPaused = false;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -22,10 +29,13 @@ public class AudioManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        KeyCode toggleAudioKey = KeyCode.M;
-        if (Input.GetKeyDown(toggleAudioKey))
+        if (Input.GetKeyDown(KeyCode.M))
         {
             ToggleAudio();
+        }
+        else if (Input.GetKeyDown(KeyCode.P))
+        {
+            TogglePause();
         }
     }
 
@@ -43,6 +53,18 @@ public class AudioManager : MonoBehaviour
     private void UpdateAudioState()
     {
         backgroundMusic.mute = isMuted;
-        audioButtonImage.sprite = isMuted ? muteSprite : playSprite;
+        audioButtonImage.sprite = isMuted ? muteSprite : unmuteSprite;
     }
+
+    public void TogglePause()
+    {
+        isPaused = !isPaused;
+        Time.timeScale = isPaused ? 0f : 1f;
+        buttonImage.sprite = isPaused ? playSprite : pauseSprite;
+    }
+
+    public void BackToMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }  
 }
